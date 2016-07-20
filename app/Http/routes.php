@@ -16,11 +16,12 @@ use Illuminate\Http\Request;
 
 Route::get('/', function () {
 //    return view('welcome');
+    return view("tasks");
 });
 
 //接收表單,來增加新的任務
-Route::post('/task', function (Request $request){
-    
+Route::post('/tasks', function (Request $request){
+    return "OK~";
 });
 
 //刪除任務
