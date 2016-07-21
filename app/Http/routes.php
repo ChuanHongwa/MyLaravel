@@ -15,24 +15,20 @@ use App\Task;
 use Illuminate\Http\Request;
 
 Route::get('/', function () {
-//    return view('welcome');
-    return view("tasks");
+    $tasks = Task::orderBy("created_at", "asc")->get();
+    return view("tasks", ["tasks" => $tasks, "anotherVar" => "Hello~"]);
 });
 
-Route::get('/task', function () {
-    return "網址列輸入的網址";
-});
 
 
 //接收表單,來增加新的任務
 Route::post('/task', function (Request $request){
     $validator = Validator::make($request->all(),
-                ["name"=>"required|max:2"]                 
+                ["name"=>"required|max:12"]                 
     );
     
     if($validator->fails())
     {
-//        return "資料錯誤!!!";
         return redirect("/")
             ->withInput()
             ->withErrors($validator);
@@ -41,7 +37,6 @@ Route::post('/task', function (Request $request){
     $task = new Task;
     $task->name = $request->name;
     $task->save();
-//    return "OK~";
     return redirect("/");
 });
 
