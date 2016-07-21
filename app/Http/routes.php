@@ -19,14 +19,35 @@ Route::get('/', function () {
     return view("tasks");
 });
 
+Route::get('/task', function () {
+    return "網址列輸入的網址";
+});
+
+
 //接收表單,來增加新的任務
-Route::post('/tasks', function (Request $request){
-    return "OK~";
+Route::post('/task', function (Request $request){
+    $validator = Validator::make($request->all(),
+                ["name"=>"required|max:2"]                 
+    );
+    
+    if($validator->fails())
+    {
+//        return "資料錯誤!!!";
+        return redirect("/")
+            ->withInput()
+            ->withErrors($validator);
+    }
+    
+    $task = new Task;
+    $task->name = $request->name;
+    $task->save();
+//    return "OK~";
+    return redirect("/");
 });
 
 //刪除任務
-Route::delete('/task/{id}', function ($id){
-    
+Route::delete('/task/{task}', function (Task $task) {
+    //
 });
 
 
